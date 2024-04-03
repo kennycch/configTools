@@ -1,0 +1,8 @@
+.vscode
+run-logs
+*.ini
+*.exe
+main_test.go
+config_tools*
+vendor
+*.log
