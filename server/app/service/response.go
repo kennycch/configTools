@@ -3,9 +3,9 @@ package service
 import (
 	"config_tools/app/errors"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
+	"github.com/kennycch/gotools/general"
 )
 
 func JsonResponse(ctx *gin.Context, code errors.ErrorCode, data interface{}) {
@@ -16,8 +16,8 @@ func JsonResponse(ctx *gin.Context, code errors.ErrorCode, data interface{}) {
 	resMsg := &JsonResponseData{
 		Code:    code,
 		Message: msg,
+		Time:    general.NowUnix(),
 		Data:    data,
-		Time:    time.Now().Unix(),
 	}
 	ctx.JSON(http.StatusOK, resMsg)
 }

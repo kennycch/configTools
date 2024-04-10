@@ -9,6 +9,8 @@ func (m *MysqlRegister) Start() {
 	mysqlInit()
 	// 自动创表
 	autoCreateTable()
+	// 数据填充
+	dataFilling()
 }
 
 func (m *MysqlRegister) Priority() uint32 {

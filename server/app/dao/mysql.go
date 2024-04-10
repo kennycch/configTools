@@ -9,7 +9,6 @@ import (
 	"go.uber.org/zap"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
-	"gorm.io/gorm/schema"
 )
 
 // mysqlInit 初始化Mysql
@@ -21,15 +20,6 @@ func mysqlInit() {
 		config.Mysql.Addr,
 		config.Mysql.DataBase,
 	)
-	// gorm配置
-	gormConf := &gorm.Config{
-		SkipDefaultTransaction: true,
-		NamingStrategy: schema.NamingStrategy{
-			SingularTable: true,
-		},
-		DisableForeignKeyConstraintWhenMigrating: true,
-		PrepareStmt:                              true,
-	}
 	// 尝试连接
 	DB, err = gorm.Open(mysql.Open(dia), gormConf)
 	if err != nil {
@@ -58,6 +48,25 @@ func mysqlClose() {
 	}
 }
 
+// 自动创表
 func autoCreateTable() {
-	DB.Set("gorm:table_options", "ENGINE=InnoDB,CHARSET=utf8mb4").AutoMigrate(dst...)
+	for _, table := range tables {
+		DB.Set("gorm:table_options", fmt.Sprintf("ENGINE=InnoDB,CHARSET=utf8mb4,COMMENT='%s'", table.comment)).AutoMigrate(table.table)
+	}
+}
+
+// 数据填充
+func dataFilling() {
+	for _, table := range tables {
+		table.table.dataFilling()
+	}
+}
+
+func (m *Model) dataFilling() {
+
+}
+
+// GetOffset 计算偏移量
+func GetOffset(page, pageSize int) int {
+	return (page - 1) * pageSize
 }

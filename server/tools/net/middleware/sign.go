@@ -20,27 +20,27 @@ func CheckSign() gin.HandlerFunc {
 		randomStr := ctx.Request.Header.Get("randomStr")
 		signature := ctx.Request.Header.Get("signature")
 		if timeStamp == "" || randomStr == "" || signature == "" {
-			service.JsonResponse(ctx, errors.ErrorCodeApiAuthFail, nil)
+			service.JsonResponse(ctx, errors.CodeApiAuthFail, nil)
 			ctx.Abort()
 			return
 		}
 		// 对比请求时间与服务器时间
 		timeStampNum, err := strconv.ParseInt(timeStamp, 10, 64)
 		if err != nil {
-			service.JsonResponse(ctx, errors.ErrorCodeApiAuthFail, nil)
+			service.JsonResponse(ctx, errors.CodeApiAuthFail, nil)
 			ctx.Abort()
 			return
 		}
 		now := time.Now().Unix()
 		if int64(math.Abs(float64(now-timeStampNum))) > config.Sign.TimeOut {
-			service.JsonResponse(ctx, errors.ErrorCodeApiAuthFail, nil)
+			service.JsonResponse(ctx, errors.CodeApiAuthFail, nil)
 			ctx.Abort()
 			return
 		}
 		// 生成签名作对比
 		serverSign := getSign(timeStamp, randomStr)
 		if serverSign != signature {
-			service.JsonResponse(ctx, errors.ErrorCodeApiAuthFail, nil)
+			service.JsonResponse(ctx, errors.CodeApiAuthFail, nil)
 			ctx.Abort()
 			return
 		}

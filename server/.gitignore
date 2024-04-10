@@ -6,3 +6,4 @@ main_test.go
 config_tools*
 vendor
 *.log
+file

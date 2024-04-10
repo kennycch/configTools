@@ -4,37 +4,44 @@ type ErrorCode int
 
 // 常规码
 const (
-	CodeSuccess     ErrorCode = 200
-	CodeClientError ErrorCode = 400
-	CodeServerError ErrorCode = 500
+	CodeSuccess      ErrorCode = 200
+	CodeApiAuthFail  ErrorCode = 400
+	CodeTokenInvalid ErrorCode = 401
+	CodeServerError  ErrorCode = 500
 )
 
 // 业务码
 const (
-	ErrorCodeApiAuthFail            ErrorCode = 100100 + iota // 前端接口签名不通过
-	ErrorCodeParamsError                                   // 参数有误
-	ERROR_CODE_TOKEN_IS_INVALID                               // 令牌无效
-	ERROR_CODE_PLEASE_LOGIN                                   // 没登录
-	ERROR_CODE_DUPLICATE_REQUEST                              // 并发请求
-	ERROR_CODE_NO_TIMES_CAN_RECEIVE                           // 没有可领取次数
-	ERROR_CODE_HAS_NOT_PLAY_TIMES                             // 没有挑战/复活次数
-	ERROR_CODE_IN_BLACK_LIST                                  // 在黑名单中
-	ERROR_CODE_ALREADY_RESERVATION                            // 已预约
-	ERROR_CODE_ROLE_ALREADY_BINDING                           // 角色已绑定
-	ERROR_CODE_NO_GIFT_CAN_RECEIVE                            // 没有礼包可领取
-	ERROR_CODE_SERVER_NOT_ENABLE                              // 区组不可用
-	ERROR_CODE_ACTIVITY_NOT_START                             // 活动没开始
-	ERROR_CODE_ACTIVITY_ALREADY_END                           // 活动已结束
-	ERROR_CODE_INVALID_REPORT                                 // 无效上报
-	ERROR_CODE_CAN_NOT_ACCESS                                 // 不可访问
-	ERROR_CODE_BLACK_INDUSTRY                                 // 黑产账号
+	ErrorCodeParamsError              ErrorCode = 100100 + iota // 参数有误
+	ErrorCodeCaptchaInvalid                                     // 验证码无效
+	ErrorCodeAccountOrPasswordInvalid                           // 账号或密码不正确
+	ErrorCodeAccountNotActivate                                 // 账号未激活
+	ErrorCodePasswordsNotMatch                                  // 密码不一致
+	ErrorCodeOldPasswordInvalid                                 // 旧密码错误
+	ErrorCodeHasNotPermission                                   // 没有权限
+	ErrorCodeAccountAlreadyExist                                // 账号已存在
+	ErrorCodeGameAlreadyExist                                   // 游戏已存在
+	ErrorCodeCanNotChangeSelf                                   // 不可修改自身账号
+	ErrorCodeFileExtNotMacth                                    // 文件格式不符
 )
 
 var (
 	// 错误码对应信息
 	Msgs = map[ErrorCode]string{
-		CodeSuccess:     "success",
-		CodeClientError: "client error",
-		CodeServerError: "server error",
+		CodeSuccess:                       "success",
+		CodeApiAuthFail:                   "api auth fail",
+		CodeTokenInvalid:                  "token invalid",
+		CodeServerError:                   "server error",
+		ErrorCodeParamsError:              "params error",
+		ErrorCodeCaptchaInvalid:           "captcha invalid",
+		ErrorCodeAccountOrPasswordInvalid: "account or password invalid",
+		ErrorCodeAccountNotActivate:       "account not activate",
+		ErrorCodePasswordsNotMatch:        "new password and confirm password not match",
+		ErrorCodeOldPasswordInvalid:       "old password invalid",
+		ErrorCodeHasNotPermission:         "has not permission",
+		ErrorCodeAccountAlreadyExist:      "account already exist",
+		ErrorCodeGameAlreadyExist:         "game already exist",
+		ErrorCodeCanNotChangeSelf:         "can not change self account",
+		ErrorCodeFileExtNotMacth:          "file ext not macth",
 	}
 )

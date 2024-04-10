@@ -12,7 +12,7 @@ import (
 )
 
 // GenerateToken 生成Token
-func GenerateToken(userId uint) string {
+func GenerateToken(userId uint32) string {
 	tokenData := TokenData{
 		Id: userId,
 		StandardClaims: jwt.StandardClaims{
