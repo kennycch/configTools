@@ -50,4 +50,11 @@ var (
 		Password string // 密码
 		DataBase string // 库
 	}{}
+
+	// Git配置
+	Git = &struct {
+		Name    string // Git用户名
+		Email   string // Git邮箱
+		SshPath string // SSH秘钥路径
+	}{}
 )

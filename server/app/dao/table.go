@@ -5,11 +5,12 @@ import "config_tools/app/request"
 type Table struct {
 	Model
 	GameId    uint32 `gorm:"index:gameId;comment:游戏Id" json:"gameId"`
-	Name      string `gorm:"type:varchar(50);comment:表名" json:"name"`
-	Comment   string `gorm:"type:varchar(50);comment:表注释" json:"comment"`
-	Version   uint32 `gorm:"comment:版本" json:"version"`
+	Name      string `gorm:"type:varchar(50);not null;comment:表名" json:"name"`
+	Comment   string `gorm:"type:varchar(50);not null;comment:表注释" json:"comment"`
+	Hash      string `gorm:"type:varchar(50);not null;comment:哈希签名" json:"hash"`
 	TableType uint8  `gorm:"comment:表类型：1：数组、2：对象" json:"tableType"`
 	Status    uint8  `gorm:"comment:表状态：1：已生成，2：已上传，3：已发布" json:"status"`
+	Version   uint32 `gorm:"comment:版本号" json:"version"`
 }
 
 type TableList struct {
@@ -31,6 +32,7 @@ func GetTableList(req *request.TableListRequest) ([]*TableList, int64) {
 			"table.id",
 			"table.name",
 			"table.comment",
+			"table.hash",
 			"table.version",
 			"table.table_type",
 			"table.status",
@@ -55,4 +57,10 @@ func GetTableList(req *request.TableListRequest) ([]*TableList, int64) {
 		Order("table.id desc").
 		Find(&list)
 	return list, count
+}
+
+func GetTableByGameIdAndName(table *Table) error {
+	return DB.Where("game_id = ? AND name = ?", table.GameId, table.Name).
+		First(table).
+		Error
 }

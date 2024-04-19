@@ -21,8 +21,10 @@ const (
 	ErrorCodeHasNotPermission                                   // 没有权限
 	ErrorCodeAccountAlreadyExist                                // 账号已存在
 	ErrorCodeGameAlreadyExist                                   // 游戏已存在
+	ErrorCodeGameNotFound                                       // 游戏不存在
 	ErrorCodeCanNotChangeSelf                                   // 不可修改自身账号
 	ErrorCodeFileExtNotMacth                                    // 文件格式不符
+	ErrorCodeTableAlreadyExist                                  // 配置表已存在
 )
 
 var (
@@ -41,7 +43,9 @@ var (
 		ErrorCodeHasNotPermission:         "has not permission",
 		ErrorCodeAccountAlreadyExist:      "account already exist",
 		ErrorCodeGameAlreadyExist:         "game already exist",
+		ErrorCodeGameNotFound:             "game not found",
 		ErrorCodeCanNotChangeSelf:         "can not change self account",
 		ErrorCodeFileExtNotMacth:          "file ext not macth",
+		ErrorCodeTableAlreadyExist:        "table already exist",
 	}
 )

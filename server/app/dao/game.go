@@ -6,6 +6,9 @@ type Game struct {
 	Model
 	Name       string `gorm:"type:varchar(50);not null;default:'';comment:游戏名" json:"name"`
 	Background string `gorm:"type:varchar(255);not null;default:'';comment:游戏背景图" json:"background"`
+	ClientGit  string `gorm:"type:varchar(255);not null;comment:前端git地址" json:"clientGit"`
+	ServerGit  string `gorm:"type:varchar(255);not null;comment:后端git地址" json:"serverGit"`
+	ExcelGit   string `gorm:"type:varchar(255);not null;comment:Excel git地址" json:"excelGit"`
 }
 
 func init() {
@@ -23,6 +26,9 @@ func GetGameList(req *request.ListBaseRequest) ([]*Game, int64) {
 			"id",
 			"name",
 			"background",
+			"client_git",
+			"server_git",
+			"excel_git",
 			"created_at",
 		})
 	quest.Count(&count)

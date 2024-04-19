@@ -5,6 +5,7 @@ import (
 	"config_tools/app/errors"
 	"config_tools/app/request"
 	"config_tools/app/service"
+	"config_tools/tools/git"
 	"config_tools/tools/net/middleware"
 
 	"github.com/gin-gonic/gin"
@@ -72,8 +73,13 @@ func (g *gameController) Create(ctx *gin.Context) {
 		newGame := &dao.Game{
 			Name:       req.Name,
 			Background: req.Background,
+			ClientGit:  req.ClientGit,
+			ServerGit:  req.ServerGit,
+			ExcelGit:   req.ExcelGit,
 		}
 		dao.CreateGame(newGame)
+		// 拉取git
+		git.CloneByGame(newGame)
 		service.JsonResponse(ctx, errors.CodeSuccess, nil)
 	})
 }

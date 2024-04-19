@@ -3,6 +3,7 @@ package main
 import (
 	"config_tools/app/dao"
 	"config_tools/config"
+	"config_tools/tools/git"
 	"config_tools/tools/lifecycle"
 	"config_tools/tools/log"
 	"config_tools/tools/net"
@@ -36,6 +37,8 @@ func register() {
 	lifecycle.AddLifecycle(redis.NewRedisRegister())
 	// 初始化MySql
 	lifecycle.AddLifecycle(dao.NewMysqlRegister())
+	// 克隆前后端项目
+	lifecycle.AddLifecycle(git.NewGitRegister())
 }
 
 // 信号监听

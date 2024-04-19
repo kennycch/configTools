@@ -13,4 +13,5 @@ func MapConfig(env *ini.File) {
 	env.Section("jwt").MapTo(Jwt)
 	env.Section("redis").MapTo(Redis)
 	env.Section("mysql").MapTo(Mysql)
+	env.Section("git").MapTo(Git)
 }

@@ -10,15 +10,15 @@ import (
 
 type Account struct {
 	Model
-	Account    string `gorm:"type:varchar(100);comment:账号" json:"account"`
-	Password   string `gorm:"type:varchar(100);comment:密码" json:"password"`
+	Account    string `gorm:"type:varchar(100);not null;comment:账号" json:"account"`
+	Password   string `gorm:"type:varchar(100);not null;comment:密码" json:"password"`
 	IsSupper   uint8  `gorm:"comment:是否超级管理账号：0：否，1：是" json:"isSupper"`
 	IsActivate uint8  `gorm:"comment:是否激活：0：否，1：是" json:"isActivate"`
 }
 
 type AccountList struct {
 	Id         uint32 `json:"id"`
-	Account    string `gorm:"type:varchar(100);comment:账号" json:"account"`
+	Account    string `gorm:"type:varchar(100);not null;comment:账号" json:"account"`
 	IsSupper   uint8  `gorm:"comment:是否超级管理账号：0：否，1：是" json:"isSupper"`
 	IsActivate uint8  `gorm:"comment:是否激活：0：否，1：是" json:"isActivate"`
 }
