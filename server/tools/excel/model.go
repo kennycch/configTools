@@ -6,7 +6,7 @@ import (
 	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-type local struct {
+type Local struct {
 	cap int
 	row int
 }

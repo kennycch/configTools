@@ -32,7 +32,7 @@ func GenerateDemo(table *dao.Table, fields []*dao.Field, excelPath string) {
 	excel.file.SetCellStyle(table.Name, "A2", "AZ5", title)
 	excel.file.SetCellStyle(table.Name, "A6", "AZ1000", cell)
 	// 头数据
-	mainLocal := &local{}
+	mainLocal := &Local{}
 	datas := map[string]string{
 		mainLocal.GetLocal(0, 0): "表名称：",
 		mainLocal.GetLocal(1, 0): table.Comment,
@@ -93,7 +93,7 @@ func GenerateDemo(table *dao.Table, fields []*dao.Field, excelPath string) {
 //	@param style 单元格样式
 func (e *excel) handleExtraSheet(sheetName string, parentId uint32) {
 	extra := e.file.NewSheet(sheetName)
-	extraLocal := &local{}
+	extraLocal := &Local{}
 	datas := map[string]string{}
 	extraSheets := map[string]uint32{}
 	// 设置列宽
@@ -105,7 +105,7 @@ func (e *excel) handleExtraSheet(sheetName string, parentId uint32) {
 	datas[extraLocal.GetLocal(0, 1)] = "父级行编号"
 	datas[extraLocal.GetLocal(0, 1)] = "固定默认字段"
 	datas[extraLocal.GetLocal(0, 1)] = typeMap[2]
-	datas[extraLocal.GetLocal(0, 1)] = "parentId"
+	datas[extraLocal.GetLocal(0, 1)] = "id"
 	datas[extraLocal.GetLocal(0, 1)] = "1"
 	extraLocal.GetLocal(1, -1)
 	for _, field := range e.fields {
@@ -142,7 +142,7 @@ func (e *excel) handleExtraSheet(sheetName string, parentId uint32) {
 //	@param cap 列
 //	@param row 行
 //	@return string Excel单元格定位
-func (l *local) GetLocal(cap, row int) string {
+func (l *Local) GetLocal(cap, row int) string {
 	if cap < 0 {
 		l.cap = 0
 	} else {

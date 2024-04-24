@@ -26,7 +26,7 @@ func GetTargetPath(gitPath string, envType EnvType) string {
 	names = general.DeleteValueByKey(names, len(names)-1)
 	name := strings.Join(names, "-")
 	// 拼接前缀
-	fullName := fmt.Sprintf("./git_projects/%s_%s", name, envType)
+	fullName := fmt.Sprintf("./file/git_projects/%s_%s", name, envType)
 	return fullName
 }
 

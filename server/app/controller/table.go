@@ -7,6 +7,8 @@ import (
 	"config_tools/app/service"
 	"config_tools/tools/excel"
 	"config_tools/tools/git"
+	"config_tools/tools/go_struct"
+	"config_tools/tools/json"
 	"config_tools/tools/net/middleware"
 	"fmt"
 
@@ -139,9 +141,16 @@ func (t *tableController) Create(ctx *gin.Context) {
 		// 生成Excel
 		excelPath := git.GetTargetPath(game.ExcelGit, git.Dev)
 		excel.GenerateDemo(table, fields, excelPath)
+		excelFullPath := fmt.Sprintf("%s/%s.xlsx", excelPath, table.Comment)
 		// 推送git
 		git.Push(game.ExcelGit, fmt.Sprintf("创建配置表：%s", table.Comment), git.Dev)
 		// 生成json文件
+		jsonPath := git.GetTargetPath(game.ClientGit, git.Dev)
+		json.StructureJson(excelFullPath, jsonPath)
+		git.Push(game.ClientGit, fmt.Sprintf("创建配置表Json：%s", table.Comment), git.Dev)
 		// 生成go文件
+		goPath := git.GetTargetPath(game.ServerGit, git.Dev)
+		go_struct.StructureGo(excelFullPath, goPath)
+		git.Push(game.ServerGit, fmt.Sprintf("创建配置表Go：%s", table.Comment), git.Dev)
 	})
 }
