@@ -36,6 +36,8 @@ func TableRoute(route *gin.Engine) {
 			lRoute.GET("/table/list", tableControllers.List)
 			// 配置表创建
 			lRoute.POST("/table/create", tableControllers.Create)
+			// 配置表编辑
+			lRoute.PUT("/table/edit", tableControllers.Edit)
 		}
 	}
 }
@@ -58,7 +60,7 @@ func (t *tableController) List(ctx *gin.Context) {
 // Create 配置表创建
 func (t *tableController) Create(ctx *gin.Context) {
 	// 用方法锁让请求线性
-	service.LockFunc("TableCreate", func() {
+	service.LockFunc("Table", func() {
 		// 校验参数
 		req := &request.TableCreateRequest{}
 		if err := service.CheckValid(ctx, req); err != nil {
@@ -96,7 +98,7 @@ func (t *tableController) Create(ctx *gin.Context) {
 				Comment:   req.Comment,
 				Hash:      service.GetPassword(fmt.Sprintf("%d_%s_%d", req.GameId, req.Name, 0)),
 				TableType: req.TableType,
-				Status:    1,
+				Status:    dao.TableStatusCreated,
 			}
 			if err := tx.Create(table).Error; err != nil {
 				return err
@@ -152,5 +154,53 @@ func (t *tableController) Create(ctx *gin.Context) {
 		goPath := git.GetTargetPath(game.ServerGit, git.Dev)
 		go_struct.StructureGo(excelFullPath, goPath)
 		git.Push(game.ServerGit, fmt.Sprintf("创建配置表Go：%s", table.Comment), git.Dev)
+	})
+}
+
+// Edit 配置表编辑
+func (t *tableController) Edit(ctx *gin.Context) {
+	// 用方法锁让请求线性
+	service.LockFunc("Table", func() {
+		// 校验参数
+		req := &request.TableEditRequest{}
+		if err := service.CheckValid(ctx, req); err != nil {
+			service.JsonResponse(ctx, errors.ErrorCodeParamsError, nil)
+			return
+		}
+		// 游戏是否存在
+		game := &dao.Game{
+			Model: dao.Model{
+				Id: req.GameId,
+			},
+		}
+		dao.GetGameById(game)
+		if game.Id == 0 {
+			service.JsonResponse(ctx, errors.ErrorCodeGameNotFound, nil)
+			return
+		}
+		// 获取配置表
+		table := &dao.Table{
+			Model: dao.Model{
+				Id: req.Id,
+			},
+		}
+		if err := dao.GetTableById(table); err != nil {
+			service.JsonResponse(ctx, errors.ErrorCodeTableNotFound, nil)
+			return
+		} else if table.Status == dao.TableStatusPublished { // 已发布配置表不允许修改
+			service.JsonResponse(ctx, errors.ErrorCodePublishedTableCanNotEdit, nil)
+			return
+		}
+		// 开启事务
+		// fields := []*dao.Field{}
+		// oldName, oldComment = table.Name, table.Comment
+		err := dao.DB.Transaction(func(tx *gorm.DB) error {
+			
+			return nil
+		})
+		if err != nil {
+			service.JsonResponse(ctx, errors.CodeServerError, nil)
+			return
+		}
 	})
 }

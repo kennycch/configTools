@@ -25,6 +25,8 @@ const (
 	ErrorCodeCanNotChangeSelf                                   // 不可修改自身账号
 	ErrorCodeFileExtNotMacth                                    // 文件格式不符
 	ErrorCodeTableAlreadyExist                                  // 配置表已存在
+	ErrorCodeTableNotFound                                      // 配置表不存在
+	ErrorCodePublishedTableCanNotEdit                           // 已发布配置表不可编辑
 )
 
 var (
@@ -47,5 +49,7 @@ var (
 		ErrorCodeCanNotChangeSelf:         "can not change self account",
 		ErrorCodeFileExtNotMacth:          "file ext not macth",
 		ErrorCodeTableAlreadyExist:        "table already exist",
+		ErrorCodeTableNotFound:            "table not found",
+		ErrorCodePublishedTableCanNotEdit: "published table can not edit",
 	}
 )

@@ -2,6 +2,12 @@ package dao
 
 import "config_tools/app/request"
 
+const (
+	TableStatusCreated uint8 = 1 + iota
+	TableStatusUpdated
+	TableStatusPublished
+)
+
 type Table struct {
 	Model
 	GameId    uint32 `gorm:"index:gameId;comment:游戏Id" json:"gameId"`
@@ -61,6 +67,12 @@ func GetTableList(req *request.TableListRequest) ([]*TableList, int64) {
 
 func GetTableByGameIdAndName(table *Table) error {
 	return DB.Where("game_id = ? AND name = ?", table.GameId, table.Name).
+		First(table).
+		Error
+}
+
+func GetTableById(table *Table) error {
+	return DB.Where("id = ?", table.Id).
 		First(table).
 		Error
 }
