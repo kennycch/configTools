@@ -8,6 +8,7 @@ import (
 	"github.com/kennycch/gotools/general"
 )
 
+// JsonResponse 返回Json
 func JsonResponse(ctx *gin.Context, code errors.ErrorCode, data interface{}) {
 	msg := ""
 	if msgData, ok := errors.Msgs[code]; ok {
